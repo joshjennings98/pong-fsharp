@@ -16,7 +16,7 @@ type Game1 () as x =
     let graphics = new GraphicsDeviceManager(x)
     let mutable spriteBatch = Unchecked.defaultof<SpriteBatch>
 
-    let CreateActor' = CreateActor x.Content
+    let createActor' = createActor x.Content
  
     let mutable WorldObjects = lazy ([("paddle", Paddle(NotPlayable), Vector2(10.f,195.f), Vector2(16.f,90.f), false);
                           ("paddle", Paddle(IsPlayable), Vector2(774.f,195.f), Vector2(16.f,90.f), false);
@@ -25,7 +25,7 @@ type Game1 () as x =
                           ("", Obstacle, Vector2(0.f,480.f), Vector2(1024.f,0.f), true);
                           ("", Goal, Vector2(0.f,0.f), Vector2(0.f,480.f), true);
                           ("", Goal, Vector2(800.f,0.f), Vector2(0.f,480.f), true)]
-                         |> List.map CreateActor')
+                         |> List.map createActor')
     
     let DrawActor (sb:SpriteBatch) actor =
         if actor.Texture.IsSome then
@@ -42,13 +42,13 @@ type Game1 () as x =
         ()
  
     override x.Update (gameTime) =
-        let HandleInput' = HandleInput (Keyboard.GetState ())
+        let handleInput' = handleInput (Keyboard.GetState ())
         let current = WorldObjects.Value
         do WorldObjects <- lazy (current 
-                                 |> List.map HandleInput'
-                                 |> HandleAI
-                                 |> HandleCollisions
-                                 |> List.map ResolveVelocities)
+                                 |> List.map handleInput'
+                                 |> handleAI
+                                 |> handleCollisions
+                                 |> List.map resolveVelocities)
         do WorldObjects.Force () |> ignore
         ()
  
