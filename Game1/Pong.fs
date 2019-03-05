@@ -2,7 +2,6 @@
 
 open Microsoft.Xna.Framework
 open Microsoft.Xna.Framework.Graphics
-open Microsoft.Xna.Framework.Content
 
 open Actors
 open Input
@@ -27,7 +26,7 @@ type Game1 () as x =
                           ("", Goal, Vector2(800.f,0.f), Vector2(0.f,480.f), true)]
                          |> List.map createActor')
     
-    let DrawActor (sb:SpriteBatch) actor =
+    let drawActor (sb:SpriteBatch) actor =
         if actor.Texture.IsSome then
             do sb.Draw(actor.Texture.Value, actor.Position, Color.White)
         ()
@@ -54,10 +53,10 @@ type Game1 () as x =
  
     override x.Draw (gameTime) =
         do x.GraphicsDevice.Clear Color.Black
-        let DrawActor' = DrawActor spriteBatch
+        let drawActor' = drawActor spriteBatch
         do spriteBatch.Begin ()
         WorldObjects.Value
-        |> List.iter DrawActor'
+        |> List.iter drawActor'
         do spriteBatch.End ()
         ()
 
