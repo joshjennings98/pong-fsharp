@@ -14,7 +14,7 @@ let handleAI (worldObjects : WorldActor list) =
         | Paddle(NotPlayable) -> 
             match actor.BodyType with
             | Dynamic(v) -> {actor with BodyType = Dynamic(Vector2(0.f, 0.0f * v.Y))}
-            | _ -> failwithf "Won't happen." 
+            | _ -> failwithf "Paddle is always a dynamic actor." 
         | _ -> actor
     
     let rec handleAI' (actors : WorldActor list) (ball : Vector2 option) (paddle : Vector2 option) = 

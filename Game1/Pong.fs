@@ -26,6 +26,8 @@ type Game1 () as x =
                           ("", Goal, Vector2(800.f,0.f), Vector2(0.f,480.f), true)]
                          |> List.map createActor')
     
+    let startingObjects = WorldObjects
+
     let drawActor (sb:SpriteBatch) actor =
         if actor.Texture.IsSome then
             do sb.Draw(actor.Texture.Value, actor.Position, Color.White)
@@ -42,9 +44,11 @@ type Game1 () as x =
  
     override x.Update (gameTime) =
         let handleInput' = handleInput (Keyboard.GetState ())
+        let handleReset' = HandleReset (Keyboard.GetState ()) startingObjects.Value
         let current = WorldObjects.Value
         do WorldObjects <- lazy (current 
                                  |> List.map handleInput'
+                                 |> handleReset'
                                  |> handleAI
                                  |> handleCollisions
                                  |> List.map resolveVelocities)

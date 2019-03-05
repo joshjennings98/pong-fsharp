@@ -5,6 +5,17 @@ open Microsoft.Xna.Framework.Input
 open Actors
 open System
 
+let HandleReset (kbState:KeyboardState) (worldActors : WorldActor list) (currentActors : WorldActor list) =
+    let rec handleKeys keys =
+        match keys with
+        | [] -> currentActors
+        | x :: xs -> 
+            match x with
+            | Keys.R -> 
+                worldActors
+            | _ -> currentActors
+    handleKeys (kbState.GetPressedKeys() |> Array.toList)
+
 let handleInput (kbState:KeyboardState) actor =
     let rec handleKeys keys (currentVelocity:Vector2) =
         match keys with
@@ -36,6 +47,7 @@ let handleInput (kbState:KeyboardState) actor =
             | _ -> match actor.ActorType with
                    | Ball -> handleKeys xs (currentVelocity)
                    | _ ->  handleKeys xs (Vector2(0.f,0.f))
+    
     match actor.ActorType with
     | Paddle(IsPlayable) -> 
         let initialVelocity = 
