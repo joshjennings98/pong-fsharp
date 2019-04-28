@@ -29,22 +29,16 @@ let handleCollisions worldObjects =
         newVel
 
     let findCollision a b =
-        match a.ActorType,b.ActorType with
-        | Paddle(_), Obstacle -> 
-            match a.BodyType, b.BodyType with
-            | Dynamic (s), Static -> { a with BodyType = Dynamic(Vector2(0.f, 0.f)) }
+        match a.BodyType, b.BodyType with
+        | Dynamic (s), Static -> 
+            match a.ActorType, b.ActorType with
+            | Paddle(_), Obstacle -> { a with BodyType = Dynamic(Vector2(0.f, 0.f)) }
+            | Ball, Obstacle -> { a with BodyType = Dynamic((FindNewVelocity a.DesiredBounds b.CurrentBounds s a)) }
+            | Ball, Goal -> {a with Position = Vector2(384.f,240.f); BodyType = Dynamic(Vector2(0.f,0.f))}
             | _ -> a
-        | Ball, Obstacle ->  
-            match a.BodyType, b.BodyType with
-            | Dynamic (s), Static -> { a with BodyType = Dynamic((FindNewVelocity a.DesiredBounds b.CurrentBounds s a)) }
-            | _ -> a
-        | Ball, Goal -> 
-            match a.BodyType, b.BodyType with
-            | Dynamic (s), Static -> {a with Position = Vector2(384.f,240.f); BodyType = Dynamic(Vector2(0.f,0.f))}
-            | _ -> a
-        | Ball, Paddle(_) -> 
-            match a.BodyType, b.BodyType with
-            | Dynamic (s), Dynamic(_) -> { a with BodyType = Dynamic((FindNewVelocity a.DesiredBounds b.CurrentBounds s a)) }
+        | Dynamic (s), Dynamic(_) -> 
+            match a.ActorType, b.ActorType with
+            | Ball, Paddle(_) -> { a with BodyType = Dynamic((FindNewVelocity a.DesiredBounds b.CurrentBounds s a)) }
             | _ -> a
         | _ -> a
     
