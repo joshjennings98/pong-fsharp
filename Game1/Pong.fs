@@ -10,8 +10,10 @@ open AI
 
 type Game1 () as x =
     inherit Game()
- 
+
+    do x.Window.Title <- "Pong"
     do x.Content.RootDirectory <- "Content"
+
     let graphics = new GraphicsDeviceManager(x)
     let mutable spriteBatch = Unchecked.defaultof<SpriteBatch>
 

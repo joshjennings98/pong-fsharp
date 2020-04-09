@@ -15,3 +15,8 @@ Made using F# with [MonoGame](http://www.monogame.net/).
 ## Notes
 
 *You need to install MonoGame for this to work.*
+
+### Bugs
+
+* The ball doesn't start in a random direction.
+* The AI tends to hit the ball in the same area of it's paddle causing it to go in the same direction a lot.
